@@ -16,3 +16,8 @@ do_install() {
 install -d ${D}${bindir}
 install -m 0755 helloworld ${D}${bindir}
 }
+
+do_unpack_extra() {
+	cp -pPR ${WORKDIR}/* ${S} 
+ }
+addtask unpack_extra after do_unpack before do_patch
