@@ -9,6 +9,7 @@ SRC_URI = "file://CMakeLists.txt \
 		   file://hello-world.c \
 		  "
 S = "${WORKDIR}"
+
 do_compile() {
 ${CC} ${CFLAGS} ${LDFLAGS} hello-world.c -o helloworld
 }
@@ -18,6 +19,11 @@ install -m 0755 helloworld ${D}${bindir}
 }
 
 do_unpack_extra() {
-	cp -pPR ${WORKDIR}/* ${S} 
- }
+}
 addtask unpack_extra after do_unpack before do_patch
+
+inherit helloCls
+def pyfunc(o):print(dir(o))
+python do_unpack_extra () {bb.note ("running unpack_extra")pyfunc(d)}
+addtask unpack_extra before do_hello
+
